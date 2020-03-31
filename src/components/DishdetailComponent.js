@@ -30,7 +30,7 @@ class Dishdetail extends Component
 				
 				<ul className="list-unstyled" key={cmnt.id}>
 					<li>{cmnt.comment}</li>
-					<li>--{cmnt.author} {cmnt.date}</li>
+					<li>--{cmnt.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(cmnt.date)))}</li>
 
 				</ul>
 				
