@@ -29,7 +29,7 @@ class CommentForm extends Component{
     handleSubmit(values)
     {alert(JSON.stringify(values));   
          this.toggleModal();
-         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+         this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
          
     }
     
@@ -115,7 +115,7 @@ class CommentForm extends Component{
 				);
 	}
 
-	function RenderComments({comments,dishId,addComment})
+	function RenderComments({comments,dishId,postComment})
 	{
 		const comment = comments.map((cmnt) => {
 			return(
@@ -136,7 +136,7 @@ class CommentForm extends Component{
 			<div>
 				{comment}
 			</div>
-			<CommentForm dishId={dishId} addComment={addComment}/>
+			<CommentForm dishId={dishId} postComment={postComment}/>
 			</div>);
 		}
 		else
@@ -190,7 +190,7 @@ class CommentForm extends Component{
 
 				<div className="col-12 col-md-5 m-1">
 				   <RenderComments comments = {props.comments} 
-                  addComment={props.addComment}
+                  postComment={props.postComment}
                   dishId={props.dish.id}
                     />
 				</div>
