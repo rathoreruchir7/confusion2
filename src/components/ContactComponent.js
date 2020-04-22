@@ -13,25 +13,15 @@ class Contact extends Component {
     constructor(props)
     {
         super(props);
-
-        
-            
-        
-
-       
         this.handleSubmit = this.handleSubmit.bind(this);
         
    }
 
-  
-
-   
-
-    
-
-    handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(this.state));
-        alert('Current State is: ' + JSON.stringify(this.state));
+  handleSubmit(values) {
+        
+        this.props.postFeedback(values.firstname,values.lastname,values.telnum,
+                                    values.email,values.agree,values.contactType,values.message);
+        
         this.props.resetFeedbackForm();
         // event.preventDefault();
     }
@@ -182,6 +172,7 @@ class Contact extends Component {
                                     <div className="form-check">
                                         <Label check>
                                             <Control.checkbox model=".agree"
+                                            id="agree"
                                                 name="agree"
                                                 className="form-check-input"
                                                  /> {' '}
@@ -201,7 +192,7 @@ class Contact extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
-                                    <Control.text model=".messge" id="message" name="message"
+                                    <Control.text model=".message" id="message" name="message"
                                         rows="12"
                                         className="form-control"
                                         
