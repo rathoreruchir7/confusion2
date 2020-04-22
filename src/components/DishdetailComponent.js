@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {LocalForm,Control,Errors} from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
-
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 // import CommentForm from './CommentForm';
 
 const required = (val) => val && val.length;
@@ -103,39 +103,47 @@ class CommentForm extends Component{
 
 	function RenderDish({dish})
 	{	return(
-		
-				<Card>
-					<CardImg top src={baseUrl + dish.image} alt={dish.name} />
-                <CardBody>
-                  <CardTitle>{dish.name}</CardTitle>
-                  <CardText>{dish.description}</CardText>
-                </CardBody>
+		     <div className="col-12 col-md-5 m-1">
+                 <FadeTransform in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+                  <Card>
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                    <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                    </CardBody>
 
-				</Card>
+                 </Card>
+                </FadeTransform>
+              </div>
 				);
 	}
 
 	function RenderComments({comments,dishId,postComment})
 	{
-		const comment = comments.map((cmnt) => {
-			return(
-				
-				<ul className="list-unstyled" key={cmnt.id}>
-					<li>{cmnt.comment}</li>
-					<li>--{cmnt.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(cmnt.date)))}</li>
-
-				</ul>
-				
-			);
-		});
-		if(comment!=null){
+		
+		if(comments!=null){
 		return(
 
-			<div>
+			<div className="col-12 col-md-5 m-1">
 				<h4>Comments</h4>
-			<div>
-				{comment}
-			</div>
+			<ul className="list-unstyled">
+            <Stagger in>
+                        {comments.map((comment) => {
+                            return (
+                                <Fade in>
+                                <li key={comment.id}>
+                                <p>{comment.comment}</p>
+                                <p>-- {comment.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                </li>
+                                </Fade>
+                            );
+                        })}
+            </Stagger>
+            </ul>
+			
 			<CommentForm dishId={dishId} postComment={postComment}/>
 			</div>);
 		}
@@ -177,23 +185,24 @@ class CommentForm extends Component{
                         <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
                         <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
                     </Breadcrumb>
+                    </div>
+                    <div className="row">
                     <div className="col-12">
                         <h3>{props.dish.name}</h3>
-                        <hr />
-                    </div>                
-                </div>
+                         <hr />
+                    </div>             
+                    </div>   
+                
                 
 				<div className="row">
-				<div className="col-12 col-md-5 m-1">	
+					
 					<RenderDish dish={props.dish} />
-				</div>
 
-				<div className="col-12 col-md-5 m-1">
 				   <RenderComments comments = {props.comments} 
-                  postComment={props.postComment}
-                  dishId={props.dish.id}
-                    />
-				</div>
+                            postComment={props.postComment}
+                            dishId={props.dish.id}
+                                     />
+				
 			</div>
 			</div>
 				
